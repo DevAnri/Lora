@@ -1,4 +1,4 @@
-module Lora
+module github.com/devanri/Lora
 
 go 1.13
 

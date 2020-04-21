@@ -1,10 +1,11 @@
 package main
 
 import (
-	"Lora/dev/commands"
 	"context"
 	"encoding/json"
 	"io/ioutil"
+
+	"github.com/devanri/Lora/dev/commands"
 
 	"github.com/andersfylling/disgord"
 )
