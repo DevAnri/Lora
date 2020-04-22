@@ -10,7 +10,7 @@ import (
 )
 
 func Kick(s disgord.Session, m *disgord.MessageCreate) {
-	if !strings.HasPrefix(m.Message.Content, "l?kick") || m.Message.Author.Bot {
+	if !strings.HasPrefix(m.Message.Content, "l?kick",) || !strings.HasPrefix(m.Message.Content, "l?k") || m.Message.Author.Bot {
 		return
 	}
 	cu, err := s.GetCurrentUser(context.Background())

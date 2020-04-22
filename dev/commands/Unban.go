@@ -10,7 +10,7 @@ import (
 )
 
 func Unban(s disgord.Session, m *disgord.MessageCreate) {
-	if !strings.HasPrefix(m.Message.Content, "l?unban") || m.Message.Author.Bot {
+	if !strings.HasPrefix(m.Message.Content, "l?unban") || !strings.HasPrefix(m.Message.Content, "l?ub") || m.Message.Author.Bot {
 		return
 	}
 	cu, err := s.GetCurrentUser(context.Background())

@@ -18,10 +18,14 @@ func HighestRole(s disgord.Session, gid, uid disgord.Snowflake) int {
 		return -1
 	}
 
-	groles, err := s.GetGuildRoles(context.Background(), gid)
+	g, err := s.GetGuild(context.Background(), gid)
 	if err != nil {
-		fmt.Println(err)
 		return -1
+	}
+	groles := g.Roles
+
+	if uid == g.OwnerID {
+		return 500
 	}
 
 	sort.Sort(RoleByPos(groles))
@@ -38,7 +42,7 @@ func HighestRole(s disgord.Session, gid, uid disgord.Snowflake) int {
 }
 
 func Ban(s disgord.Session, m *disgord.MessageCreate) {
-	if !strings.HasPrefix(m.Message.Content, "l?ban") || m.Message.Author.Bot {
+	if !strings.HasPrefix(m.Message.Content, "l?ban",) || !strings.HasPrefix(m.Message.Content, "l?b") || m.Message.Author.Bot {
 		return
 	}
 

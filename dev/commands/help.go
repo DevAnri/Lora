@@ -13,12 +13,23 @@ func Help(s disgord.Session, m *disgord.MessageCreate) {
 		return
 	}
 
-	content := "avatar - [l?av]\nhelp - [l?help]\nserver info - [l?server]\nping - [l?ping]"
+	general := "avatar - [l?av]\nhelp - [l?help]\nserver info - [l?server]\nping - [l?ping]"
+
+	moderation := "ban - [l?ban]\nunban - [l?unban]\nkick - [l?kick]"
 
 	embed := &disgord.Embed{
-		Color:       0xDDA1A1,
-		Title:       "Commands",
-		Description: fmt.Sprintf("```ini\n%v\n```", content),
+		Color: 0xDDA1A1,
+		Title: "Commands",
+		Fields: []*disgord.EmbedField{
+			{
+				Name:  "General",
+				Value: fmt.Sprintf("```ini\n%v\n```", general),
+			},
+			{
+				Name:  "Moderation",
+				Value: fmt.Sprintf("```ini\n%v\n```", moderation),
+			},
+		},
 	}
 
 	m.Message.Reply(context.Background(), s, embed)
