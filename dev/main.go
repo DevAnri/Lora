@@ -40,4 +40,7 @@ func addHandlers(c *disgord.Client) {
 	c.On(disgord.EvtMessageCreate, commands.Avatar)
 	c.On(disgord.EvtMessageCreate, commands.Server)
 	c.On(disgord.EvtMessageCreate, commands.Help)
+	c.On(disgord.EvtMessageCreate, commands.Ban)
+	c.On(disgord.EvtMessageCreate, commands.Unban)
+	c.On(disgord.EvtMessageCreate, commands.Kick)
 }

@@ -47,7 +47,7 @@ func Avatar(s disgord.Session, m *disgord.MessageCreate) {
 	url, _ := targetUser.AvatarURL(2048, true)
 
 	embed := &disgord.Embed{
-		Color: HighestRole(s, m.Message.GuildID, targetUser.ID),
+		Color: HighestColor(s, m.Message.GuildID, targetUser.ID),
 		Title: targetUser.Tag(),
 		Image: &disgord.EmbedImage{
 			URL: url,
@@ -56,7 +56,7 @@ func Avatar(s disgord.Session, m *disgord.MessageCreate) {
 	m.Message.Reply(context.Background(), s, embed)
 }
 
-func HighestRole(s disgord.Session, gid, uid disgord.Snowflake) int {
+func HighestColor(s disgord.Session, gid, uid disgord.Snowflake) int {
 
 	mem, err := s.GetMember(context.Background(), gid, uid)
 	if err != nil {
