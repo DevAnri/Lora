@@ -13,31 +13,13 @@ func Help(s disgord.Session, m *disgord.MessageCreate) {
 		return
 	}
 
-	g, err := s.GetGuild(context.Background(), m.Message.GuildID)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	u, err := s.GetCurrentUser(context.Background())
-	if err != nil {
-
-	}
-	pfp, err := u.AvatarURL(2048, true)
-	if err != nil {
-		return
-	}
+	content := "avatar - [l?av]\nhelp - [l?help]\nserver info - [l?server]\nping - [l?ping]"
 
 	embed := &disgord.Embed{
 		Color:       0xDDA1A1,
-		Fields: []*disgord.EmbedField{
+		Title:       "Commands",
+		Description: fmt.Sprintf("```ini\n%v\n```", content),
+	}
 
-		},
-	}
-	if g.Icon != "" {
-		embed.Author = &disgord.EmbedAuthor{
-			Name:    "Help",
-			IconURL: pfp,
-		}
-	}
 	m.Message.Reply(context.Background(), s, embed)
 }
