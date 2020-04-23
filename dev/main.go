@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 
 	"github.com/devanri/Lora/dev/commands"
@@ -11,7 +12,50 @@ import (
 )
 
 type Config struct {
-	Token string `json:"token"`
+	Token            string   `json: "token"`
+	OwoToken         string   `json: "owo_token"`
+	ConnectionString string   `json: "connection_string"`
+	DDMogChannels    []uint64 `json "dm_log_channels"`
+	OwnerIds         []string `json: "owner_ids"`
+}
+
+var (
+	config Config
+)
+
+var (
+	dmChannels = []uint64{702741795922247751}
+)
+
+func ForwardDMs(s disgord.Session, m *disgord.MessageCreate) {
+
+	if m.Message.Author.Bot {
+		return
+	}
+
+	ch, err := s.GetChannel(context.Background(), m.Message.ChannelID)
+	if err != nil {
+		return
+	}
+
+	if ch.Type != disgord.ChannelTypeDM {
+		return
+	}
+
+	embed := &disgord.Embed{
+		Color:       0xDDA1A1,
+		Title:       fmt.Sprintf("Message from %v", m.Message.Author.Tag()),
+		Description: m.Message.Content,
+		Footer:      &disgord.EmbedFooter{Text: m.Message.Author.ID.String()},
+		Timestamp:   m.Message.Timestamp,
+	}
+	if len(m.Message.Attachments) > 0 {
+		embed.Image = &disgord.EmbedImage{URL: m.Message.Attachments[0].URL}
+	}
+
+	for _, id := range dmChannels {
+		s.SendMsg(context.Background(), disgord.NewSnowflake(id), embed)
+	}
 }
 
 func main() {
@@ -20,7 +64,6 @@ func main() {
 	if err != nil {
 		panic("Config file not found.\nPlease press enter.")
 	}
-	var config Config
 	json.Unmarshal(file, &config)
 
 	// setting up bot
@@ -43,4 +86,5 @@ func addHandlers(c *disgord.Client) {
 	c.On(disgord.EvtMessageCreate, commands.Ban)
 	c.On(disgord.EvtMessageCreate, commands.Unban)
 	c.On(disgord.EvtMessageCreate, commands.Kick)
+	c.On(disgord.EvtMessageCreate, ForwardDMs)
 }
