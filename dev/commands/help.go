@@ -15,7 +15,7 @@ func Help(s disgord.Session, m *disgord.MessageCreate) {
 
 	general := "avatar - [l?av]\nhelp - [l?help]\nserver info - [l?server]\nping - [l?ping]"
 
-	moderation := "ban - [l?ban]\nunban - [l?unban]\nkick - [l?kick]"
+	moderation := "ban - [l?ban]\nunban - [l?unban]\nkick - [l?kick]\nprune - [l?prune]"
 
 	embed := &disgord.Embed{
 		Color: 0xDDA1A1,
