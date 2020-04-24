@@ -86,5 +86,6 @@ func addHandlers(c *disgord.Client) {
 	c.On(disgord.EvtMessageCreate, commands.Ban)
 	c.On(disgord.EvtMessageCreate, commands.Unban)
 	c.On(disgord.EvtMessageCreate, commands.Kick)
+	c.On(disgord.EvtMessageCreate, commands.Prune)
 	c.On(disgord.EvtMessageCreate, ForwardDMs)
 }
