@@ -42,7 +42,7 @@ func HighestRole(s disgord.Session, gid, uid disgord.Snowflake) int {
 }
 
 func Ban(s disgord.Session, m *disgord.MessageCreate) {
-	if !strings.HasPrefix(m.Message.Content, "l?ban",) || !strings.HasPrefix(m.Message.Content, "l?b") || m.Message.Author.Bot {
+	if !strings.HasPrefix(m.Message.Content, "l?ban") || !strings.HasPrefix(m.Message.Content, "l?b") || m.Message.Author.Bot {
 		return
 	}
 
@@ -68,6 +68,7 @@ func Ban(s disgord.Session, m *disgord.MessageCreate) {
 	}
 
 	if uperms&disgord.PermissionBanMembers == 0 && uperms&disgord.PermissionAdministrator == 0 {
+		s.SendMsg(context.Background(), m.Message.ChannelID, "no")
 		return
 	}
 

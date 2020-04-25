@@ -10,7 +10,7 @@ import (
 )
 
 func Kick(s disgord.Session, m *disgord.MessageCreate) {
-	if !strings.HasPrefix(m.Message.Content, "l?kick",) || !strings.HasPrefix(m.Message.Content, "l?k") || m.Message.Author.Bot {
+	if !strings.HasPrefix(m.Message.Content, "l?kick") || !strings.HasPrefix(m.Message.Content, "l?k") || m.Message.Author.Bot {
 		return
 	}
 	cu, err := s.GetCurrentUser(context.Background())
@@ -35,6 +35,7 @@ func Kick(s disgord.Session, m *disgord.MessageCreate) {
 	}
 
 	if uperms&disgord.PermissionBanMembers == 0 && uperms&disgord.PermissionAdministrator == 0 {
+		s.SendMsg(context.Background(), m.Message.ChannelID, "no")
 		return
 	}
 
@@ -104,10 +105,10 @@ func Kick(s disgord.Session, m *disgord.MessageCreate) {
 			}
 
 			if reason == "" {
-				userchannel.SendMsgString(context.Background(), s, fmt.Sprintf("You have been banned from %v", g.Name))
+				userchannel.SendMsgString(context.Background(), s, fmt.Sprintf("You have been kicked from %v", g.Name))
 
 			} else {
-				userchannel.SendMsgString(context.Background(), s, fmt.Sprintf("You have been banned from %v for the following reason:\n%v", g.Name, reason))
+				userchannel.SendMsgString(context.Background(), s, fmt.Sprintf("You have been kicked from %v for the following reason:\n%v", g.Name, reason))
 			}
 		}
 	}

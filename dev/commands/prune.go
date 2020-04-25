@@ -37,6 +37,7 @@ func Prune(s disgord.Session, m *disgord.MessageCreate) {
 	}
 
 	if uperms&disgord.PermissionManageMessages == 0 && uperms&disgord.PermissionAdministrator == 0 {
+		s.SendMsg(context.Background(), m.Message.ChannelID, "no")
 		return
 	}
 
