@@ -88,4 +88,15 @@ func addHandlers(c *disgord.Client) {
 	c.On(disgord.EvtMessageCreate, commands.Kick)
 	c.On(disgord.EvtMessageCreate, commands.Prune)
 	c.On(disgord.EvtMessageCreate, ForwardDMs)
+	c.On(disgord.EvtReady, Ready)
+}
+
+func Ready(s disgord.Session, r *disgord.Ready) {
+
+	s.UpdateStatus(&disgord.UpdateStatusPayload{
+		Game: &disgord.Activity{
+			Type: disgord.ActivityTypeListening,
+			Name: "all of you",
+		},
+	})
 }
