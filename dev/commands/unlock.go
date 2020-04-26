@@ -25,7 +25,7 @@ func Unlock(s disgord.Session, m *disgord.MessageCreate) {
 		return
 	}
 
-	if botperms&disgord.PermissionManageChannels == 0 && botperms&disgord.PermissionAdministrator == 0 {
+	if botperms&disgord.PermissionManageRoles == 0 && botperms&disgord.PermissionAdministrator == 0 {
 		return
 	}
 
@@ -35,7 +35,7 @@ func Unlock(s disgord.Session, m *disgord.MessageCreate) {
 		return
 	}
 
-	if uperms&disgord.PermissionManageChannels == 0 && uperms&disgord.PermissionAdministrator == 0 {
+	if uperms&disgord.PermissionManageRoles == 0 && uperms&disgord.PermissionAdministrator == 0 {
 		return
 	}
 
@@ -66,8 +66,17 @@ func Unlock(s disgord.Session, m *disgord.MessageCreate) {
 		}
 	}
 
-	if er == nil || ep.ID.IsZero() {
+	if er == nil {
 		return
+	}
+
+	if ep.ID.IsZero() {
+		ep = disgord.PermissionOverwrite{
+			Type:  "role",
+			Allow: 0,
+			Deny:  0,
+			ID:    er.ID,
+		}
 	}
 
 	if ep.Allow&disgord.PermissionSendMessages == 0 && ep.Deny&disgord.PermissionSendMessages == 0 {
@@ -93,5 +102,4 @@ func Unlock(s disgord.Session, m *disgord.MessageCreate) {
 		}
 		s.SendMsg(context.Background(), m.Message.ChannelID, "Channel unlocked")
 	}
-
 }

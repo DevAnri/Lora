@@ -25,7 +25,7 @@ func Lockdown(s disgord.Session, m *disgord.MessageCreate) {
 		return
 	}
 
-	if botperms&disgord.PermissionManageChannels == 0 && botperms&disgord.PermissionAdministrator == 0 {
+	if botperms&disgord.PermissionManageRoles == 0 && botperms&disgord.PermissionAdministrator == 0 {
 		return
 	}
 
@@ -35,7 +35,7 @@ func Lockdown(s disgord.Session, m *disgord.MessageCreate) {
 		return
 	}
 
-	if uperms&disgord.PermissionManageChannels == 0 && uperms&disgord.PermissionAdministrator == 0 {
+	if uperms&disgord.PermissionManageRoles == 0 && uperms&disgord.PermissionAdministrator == 0 {
 		return
 	}
 
@@ -46,6 +46,7 @@ func Lockdown(s disgord.Session, m *disgord.MessageCreate) {
 
 	grs, err := s.GetGuildRoles(context.Background(), m.Message.GuildID)
 	if err != nil {
+		fmt.Println(err)
 		return
 	}
 
@@ -57,6 +58,7 @@ func Lockdown(s disgord.Session, m *disgord.MessageCreate) {
 
 	ch, err := s.GetChannel(context.Background(), m.Message.ChannelID)
 	if err != nil {
+		fmt.Println(err)
 		return
 	}
 
@@ -66,8 +68,17 @@ func Lockdown(s disgord.Session, m *disgord.MessageCreate) {
 		}
 	}
 
-	if er == nil || ep.ID.IsZero() {
+	if er == nil {
 		return
+	}
+
+	if ep.ID.IsZero() {
+		ep = disgord.PermissionOverwrite{
+			Type:  "role",
+			Allow: 0,
+			Deny:  0,
+			ID:    er.ID,
+		}
 	}
 
 	if ep.Allow&disgord.PermissionSendMessages == 0 && ep.Deny&disgord.PermissionSendMessages == 0 {
@@ -108,5 +119,4 @@ func Lockdown(s disgord.Session, m *disgord.MessageCreate) {
 		// IS DENIED
 		s.SendMsg(context.Background(), m.Message.ChannelID, "Channel already locked")
 	}
-
 }
