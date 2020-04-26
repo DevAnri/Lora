@@ -41,7 +41,7 @@ func Unlock(s disgord.Session, m *disgord.MessageCreate) {
 
 	var (
 		er *disgord.Role
-		ep *disgord.PermissionOverwrite
+		ep disgord.PermissionOverwrite
 	)
 
 	grs, err := s.GetGuildRoles(context.Background(), m.Message.GuildID)
@@ -55,7 +55,18 @@ func Unlock(s disgord.Session, m *disgord.MessageCreate) {
 		}
 	}
 
-	if er == nil || ep == nil {
+	ch, err := s.GetChannel(context.Background(), m.Message.ChannelID)
+	if err != nil {
+		return
+	}
+
+	for _, ov := range ch.PermissionOverwrites {
+		if ov.ID == er.ID {
+			ep = ov
+		}
+	}
+
+	if er == nil || ep.ID.IsZero() {
 		return
 	}
 
