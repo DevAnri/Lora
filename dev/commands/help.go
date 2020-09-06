@@ -13,7 +13,7 @@ func Help(s disgord.Session, m *disgord.MessageCreate) {
 		return
 	}
 
-	general := "avatar - [l?av]\nhelp - [l?help]\nserver info - [l?server]\nping - [l?ping]"
+	general := "avatar - [l?av]\nhelp - [l?help]\nserver info - [l?server]\nping test - [l?ping]"
 
 	moderation := "ban - [l?ban]\nunban - [l?unban]\nkick - [l?kick]\nprune - [l?prune]\nlockdown - [l?lockdown]\nunlock - [l?unlock]"
 

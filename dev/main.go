@@ -24,7 +24,7 @@ var (
 )
 
 var (
-	dmChannels = []uint64{702741795922247751}
+	dmChannels = []uint64{702741795922247751, 752029343072387122}
 )
 
 func ForwardDMs(s disgord.Session, m *disgord.MessageCreate) {
@@ -97,8 +97,8 @@ func Ready(s disgord.Session, r *disgord.Ready) {
 
 	s.UpdateStatus(&disgord.UpdateStatusPayload{
 		Game: &disgord.Activity{
-			Type: disgord.ActivityTypeListening,
-			Name: "all of you",
+			Type: disgord.ActivityTypeGame,
+			Name: "l?help",
 		},
 	})
 }
