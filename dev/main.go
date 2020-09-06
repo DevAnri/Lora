@@ -24,7 +24,7 @@ var (
 )
 
 var (
-	dmChannels = []uint64{702741795922247751, 752029343072387122}
+	dmChannels = []uint64{752029343072387122}
 )
 
 func ForwardDMs(s disgord.Session, m *disgord.MessageCreate) {
